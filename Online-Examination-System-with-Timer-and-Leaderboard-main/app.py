@@ -170,7 +170,7 @@ def admin_login():
         username = request.form['username']
         password = request.form['password']
         
-        if username == 'admin' and password == '123456':
+        if username == 'admin' and password == 'Mahi@123':
             session['user_id'] = 'admin'
             session['user_type'] = 'admin'
             session['user_name'] = 'HOD'
