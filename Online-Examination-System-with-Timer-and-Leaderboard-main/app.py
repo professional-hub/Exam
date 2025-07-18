@@ -238,35 +238,39 @@ def admin_dashboard():
     if not is_logged_in() or not is_admin():
         return redirect(url_for('admin_login'))
     
-    # Get all tests
     all_tests = list(tests.find().sort('created_at', -1))
-    
-    # Get all submissions
     all_submissions = list(submissions.find().sort('submitted_at', -1))
-    
-    # Get all students
     all_students = list(students.find())
-    
-    # Calculate pending evaluations
-    pending_evaluations = len([s for s in all_submissions if s['status'] == 'pending_evaluation'])
-    
-    # Calculate active tests
+
+    # Convert current UTC time to IST
     now = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(IST)
 
-    active_tests = len([t for t in all_tests if t['exam_date'] <= now <= t['exam_date'] + timedelta(minutes=t['duration'])])
-    
+    # Helper to localize exam_date
+    def localize_datetime(dt):
+        if dt.tzinfo is None:
+            return IST.localize(dt)
+        return dt.astimezone(IST)
+
+    # Active tests with safe datetime comparison
+    active_tests = len([
+        t for t in all_tests
+        if localize_datetime(t['exam_date']) <= now <= localize_datetime(t['exam_date']) + timedelta(minutes=t['duration'])
+    ])
+
     # Add submission count to each test
     for test in all_tests:
-        test['submission_count'] = len([s for s in all_submissions if s['test_id'] == str(test['_id'])])
-    
+        test['submission_count'] = len([
+            s for s in all_submissions if s['test_id'] == str(test['_id'])
+        ])
+
     return render_template('admin_dashboard.html', 
-                         tests=all_tests,
-                         submissions=all_submissions,
-                         students=all_students,
-                         pending_evaluations=pending_evaluations,
-                         active_tests=active_tests,
-                         now=now,
-                         timedelta=timedelta)
+                           tests=all_tests,
+                           submissions=all_submissions,
+                           students=all_students,
+                           pending_evaluations=len([s for s in all_submissions if s['status'] == 'pending_evaluation']),
+                           active_tests=active_tests,
+                           now=now,
+                           timedelta=timedelta)
 
 @app.route('/admin/create_test', methods=['GET', 'POST'])
 def create_test():
