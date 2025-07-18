@@ -195,12 +195,18 @@ def student_dashboard():
     
     for test in all_tests_list:
         test_end_time = test['exam_date'] + timedelta(minutes=test['duration'])
-        if now < test_end_time:
+        if test:
+    # Make sure test.end_time is timezone-aware
+            if test.end_time.tzinfo is None:
+                test_end_time = IST.localize(test.end_time)
+            else:
+                test_end_time = test.end_time
+            if now < test_end_time:
             # Test hasn't ended yet (upcoming or currently active)
-            upcoming_tests.append(test)
-        else:
+                upcoming_tests.append(test)
+            else:
             # Test has ended
-            ended_tests.append(test)
+                ended_tests.append(test)
     
     # Get only the 3 most recent ended tests
     recent_ended_tests = ended_tests[:3]
