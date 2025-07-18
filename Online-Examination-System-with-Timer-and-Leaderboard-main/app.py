@@ -367,8 +367,17 @@ def take_test(test_id):
         flash('Test not found!', 'error')
         return redirect(url_for('student_dashboard'))
     
-    # Check if test is currently active
+    # Get current IST time (timezone-aware)
     now = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(IST)
+    
+    # Ensure test['exam_date'] is timezone-aware
+    if test.get('exam_date'):
+        if test['exam_date'].tzinfo is None:
+            test['exam_date'] = IST.localize(test['exam_date'])
+        else:
+            test['exam_date'] = test['exam_date'].astimezone(IST)
+    
+    # Check if test is currently active
     if now < test['exam_date']:
         flash('Test has not started yet!', 'error')
         return redirect(url_for('student_dashboard'))
@@ -388,6 +397,7 @@ def take_test(test_id):
         return redirect(url_for('student_dashboard'))
     
     return render_template('test.html', test=test, enumerate=enumerate)
+
 
 @app.route('/submit_test/<test_id>', methods=['POST'])
 def submit_test(test_id):
