@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+
+{% block title %}Student Login - Online Examination System{% endblock %}
+
+{% block content %}
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+        background-color: #00e9ff;
+    }
+
+    .container {
+        display: flex;
+        width: 80%;
+        max-width: 1200px;
+        height: 90vh;
+        margin: 40px auto;
+        border-radius: 50px;
+        overflow: hidden;
+        background-color: white;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .left-panel {
+        background: linear-gradient(to bottom right, #2563eb, #1e40af);
+        width: 40%;
+        padding: 40px 20px;
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        color: white;
+        text-align: center;
+    }
+
+    .left-panel img {
+        width: 120px;
+        height: auto;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        border-radius: 30%;
+    }
+
+    .left-panel h1 {
+        font-size: 32px;
+    }
+
+    .left-panel p {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .right-panel {
+        width: 60%;
+        padding: 50px;
+        background-color: white;
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .login-card h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    .input-group input:focus {
+        border-color: #2a43d6;
+        outline: none;
+    }
+
+    .show-password {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #007bff;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .options label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .options a {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .options a:hover {
+        text-decoration: underline;
+    }
+
+    .login-button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        background: linear-gradient(to bottom right, #2563eb, #1e40af);
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .register {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .register a {
+        color: blue;
+        text-decoration: none;
+    }
+
+    .register a:hover {
+        text-decoration: underline;
+    }
+
+    .back-home {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .back-home a {
+        font-size: 13px;
+        color: #666;
+        text-decoration: none;
+    }
+
+    .back-home a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div class="container">
+    <div class="left-panel">
+        <img src="data:image/jpeg;base64,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" alt="Logo" class="logo">
+        <h1>Welcome to<br><strong>Quality Digital Services</strong></h1>
+        <p>Test Your Knowledge With Us</p>
+    </div>
+
+    <div class="right-panel">
+        <div class="login-card" id="loginCard">
+            <h2>Login</h2>
+            <form action="{{ url_for('login') }}" method="POST">
+                <div class="input-group">
+                    <input type="text" id="email" name="email" placeholder="👤 Email" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="password" name="password" placeholder="🔒 Password" required>
+                    <button type="button" class="show-password" onclick="togglePassword()">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <div class="options">
+                    <label>
+                        <input type="checkbox" id="remember" />
+                        Remember me
+                    </label>
+                    <!-- <a href="#">Forgot password?</a> -->
+                </div>
+
+                <button class="login-button" type="submit">Login</button>
+            </form>
+
+            <div class="register">
+                Don't have an account? <a href="{{ url_for('signup') }}">Register here</a>
+            </div>
+
+            <!-- <div class="back-home">
+                <a href="{{ url_for('home') }}">← login page</a>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById("password");
+        const toggleButton = event.target.closest('.show-password');
+        const icon = toggleButton.querySelector('i');
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passwordField.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+</script>
+{% endblock %}

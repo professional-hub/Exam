@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}Quality Digital Career - Home{% endblock %}
+
+{% block content %}
+<style>
+    
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+:root {
+    --primary-red: #d11a2a;
+    --text-color: #fff;
+}
+
+/* Body & Background */
+body, .gradient-bg {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(-45deg, #2563ed, #87aaf7, #1e40af, #3b82f6);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+    color: var(--text-color);
+}
+
+/* Gradient Animation */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.btn {
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: 700;
+    text-align: center;
+    transition: 0.3s ease;
+    border: none;
+}
+
+.btn-login-header,
+.btn-signup-header {
+    background-color: var(--text-color);
+    color: #1e3a8a;
+}
+
+.btn-login-header:hover,
+.btn-signup-header:hover {
+    background-color: #e2e2e2;
+    transform: scale(1.05);
+}
+
+.text-accent {
+    color: #ffd700;
+}
+
+.card-hover {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.logoi {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.fade-in {
+    animation: fadeIn 1.5s ease forwards;
+    opacity: 0;
+}
+.custom-info-box {
+    width: 320px;       /* Adjust width as needed */
+    max-height: 180px;  /* Limit height to avoid overflowing screen */
+    padding: 16px;      /* Optional: increase padding */
+    font-size: 0.95rem; /* Slightly larger text for better readability */
+    transition: all 0.3s ease;
+    line-height: 1.5;
+}
+
+.custom-info-box:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    cursor: default;
+}
+
+/* Scrollbar if content grows too tall */
+.custom-info-box::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-info-box::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+.custom-info-box::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+ 
+</style>
+
+<div class="min-h-screen gradient-bg flex flex-col">
+    <!-- Navbar -->
+    <header class="glass-effect w-full z-50 fade-in" style="animation-delay: 0.2s;">
+        <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
+            <div class="logoi">
+                <img src="/static/assets/logo.jpg" alt="Logo" class="logo">
+                QDS
+            </div>
+            <nav class="space-x-4">
+                <a href="{{ url_for('login') }}" class="btn btn-login-header">Login</a>
+                <a href="{{ url_for('signup') }}" class="btn btn-signup-header">Sign Up</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center fade-in" style="animation-delay: 0.4s;">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-8">Quality Digital Services</h2>
+
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 fade-in" style="animation-delay: 0.6s;">
+            <a href="{{ url_for('signup') }}" class="bg-yellow-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-yellow-600 transition duration-200 ease-in-out card-hover">
+                Get Started Today
+            </a>
+            <a href="{{ url_for('leaderboard') }}" class="glass-effect text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-primary transition duration-200 ease-in-out card-hover">
+                View Leaderboard
+            </a>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="grid md:grid-cols-3 gap-8 mt-20 fade-in" style="animation-delay: 0.8s;">
+            <div class="glass-effect rounded-xl p-8 card-hover">
+                <div class="text-accent mb-4">
+                    <i class="fas fa-handshake fa-2x"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-4">Loan Assistance</h3>
+                <p class="text-gray-200">Get access to personal, home, and business loans with expert help and support.</p>
+            </div>
+
+            <div class="glass-effect rounded-xl p-8 card-hover">
+                <div class="text-accent mb-4">
+                    <i class="fas fa-bullhorn fa-2x"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-4">Refer & Earn</h3>
+                <p class="text-gray-200">Promote our services and earn commissions by referring others to apply for credit cards or loans.</p>
+            </div>
+
+            <div class="glass-effect rounded-xl p-8 card-hover">
+                <div class="text-accent mb-4">
+                    <i class="fas fa-map-marker-alt fa-2x"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-4">Visit Us</h3>
+                <p class="text-gray-200">Find us in Chirala, Andhra Pradesh — we serve clients all across India.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center py-4 text-gray-300 text-sm fade-in" style="animation-delay: 1s;">
+        &copy; 2025 Quality Digital Services. All rights reserved.
+    </footer>
+</div>
+
+<!-- HOD Login Button -->
+<div class="fixed bottom-6 right-6 z-40 fade-in" style="animation-delay: 1.2s;">
+    <button onclick="toggleHODLogin()" class="bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition duration-150 ease-in-out">
+        <i class="fas fa-user fa-lg"></i>
+    </button>
+</div>
+
+<!-- HOD Login Modal -->
+<div id="hodLoginModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden transition-opacity duration-300 ease-in-out">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="glass-effect rounded-xl p-8 max-w-md w-full animate-fade-in">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white">HOD Login</h3>
+                <button onclick="toggleHODLogin()" class="text-white hover:text-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form action="{{ url_for('admin_login') }}" method="POST">
+                <div class="space-y-4">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-white mb-2">Username</label>
+                        <input type="text" id="username" name="username" required
+                               class="w-full px-3 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-white mb-2">Password</label>
+                        <input type="password" id="password" name="password" required
+                               class="w-full px-3 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+
+                    <button type="submit" class="w-full bg-yellow-500 text-white py-2 px-4 rounded-lg font-medium hover:bg-yellow-600 transition duration-150 ease-in-out">
+                        Login as HOD
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fixed About Info Bottom Left -->
+<div class="fixed bottom-4 left-4 z-30   text-white text-sm bg-black bg-opacity-30 p-4 rounded-lg max-w-xs backdrop-blur-md fade-in" style="animation-delay: 1.4s;">
+    <strong>About us:</strong><br>
+    We help people across India get personal, business, and home loans from all major banks.<br>
+    Over ₹100+ Cr disbursed to 3000+ clients.
+</div>
+
+<!-- Fixed Partner Info Bottom Right -->
+<div class="fixed bottom-4 right-4 z-30 text-white text-sm bg-black bg-opacity-30 p-5 rounded-xl shadow-xl backdrop-blur-md fade-in overflow-y-auto custom-info-box" style="animation-delay: 1.6s;">
+    💼 <strong>Partner with us:</strong><br>
+    Refer & Earn by promoting loans or credit cards.<br><br>
+    📞 Call/WhatsApp: <strong>7382752900</strong><br>
+    📍 CHIRALA, Andhra Pradesh 523157, IN
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+<script>
+function toggleHODLogin() {
+    const modal = document.getElementById('hodLoginModal');
+    modal.classList.toggle('hidden');
+}
+
+document.getElementById('hodLoginModal').addEventListener('click', function (e) {
+    if (e.target === this) {
+        toggleHODLogin();
+    }
+});
+</script>
+{% endblock %}
