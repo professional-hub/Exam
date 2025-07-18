@@ -196,6 +196,7 @@ def student_dashboard():
     for test in all_tests_list:
         test_end_time = test['exam_date'] + timedelta(minutes=test['duration'])
         if test:
+            test_end_time = test['end_time']
     # Make sure test.end_time is timezone-aware
             if test.end_time.tzinfo is None:
                 test_end_time = IST.localize(test.end_time)
