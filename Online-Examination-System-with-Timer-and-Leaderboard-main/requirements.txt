@@ -3,3 +3,4 @@ pymongo
 python-dotenv
 python-docx
 markupsafe
+pytz==2023.3
