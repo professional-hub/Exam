@@ -8,6 +8,8 @@ from werkzeug.utils import secure_filename
 import docx
 import json
 import io
+import pytz
+
 import markupsafe
 from dotenv import load_dotenv  # ✅ import this
 
@@ -46,6 +48,7 @@ tests = db.tests
 submissions = db.submissions
 files = db.files
 
+IST = pytz.timezone('Asia/Kolkata')
 
 # File upload configuration
 ALLOWED_EXTENSIONS = {'docx'}
@@ -72,7 +75,7 @@ def store_file_in_mongodb(file, filename):
         'filename': filename,
         'data': Binary(file_data),
         'content_type': file.content_type,
-        'uploaded_at': datetime.now()
+        'uploaded_at': datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(IST)
     }
     result = files.insert_one(file_doc)
     return str(result.inserted_id)
@@ -134,7 +137,7 @@ def signup():
             'email': email,
             'role': role_name,
             'password': hash_password(password),
-            'created_at': datetime.now()
+            'created_at': datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(IST)
         }
         students.insert_one(student)
 
@@ -182,7 +185,7 @@ def student_dashboard():
     if not is_logged_in() or not is_student():
         return redirect(url_for('login'))
     
-    now = datetime.now()
+    now = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(IST)
     
     # Get all tests to process them properly
     all_tests_list = list(tests.find().sort('exam_date', 1))
@@ -236,7 +239,8 @@ def admin_dashboard():
     pending_evaluations = len([s for s in all_submissions if s['status'] == 'pending_evaluation'])
     
     # Calculate active tests
-    now = datetime.now()
+    now = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(IST)
+
     active_tests = len([t for t in all_tests if t['exam_date'] <= now <= t['exam_date'] + timedelta(minutes=t['duration'])])
     
     # Add submission count to each test
@@ -270,7 +274,7 @@ def create_test():
             'exam_date': exam_date,
             'duration': duration,
             'total_marks': total_marks,
-            'created_at': datetime.now()
+            'created_at': datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(IST)
         }
         
         if test_type == 'objective':
@@ -334,7 +338,7 @@ def take_test(test_id):
         return redirect(url_for('student_dashboard'))
     
     # Check if test is currently active
-    now = datetime.now()
+    now = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(IST)
     if now < test['exam_date']:
         flash('Test has not started yet!', 'error')
         return redirect(url_for('student_dashboard'))
@@ -384,7 +388,7 @@ def submit_test(test_id):
         'test_id': test_id,
         'test_name': test['exam_name'],
         'test_type': test['test_type'],
-        'submitted_at': datetime.now(),
+        'submitted_at': datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(IST),
         'submission_time': request.json.get('submission_time', 0)
     }
     
@@ -447,7 +451,7 @@ def evaluate_submission(submission_id):
                     'score': marks,
                     'feedback': feedback,
                     'status': 'evaluated',
-                    'evaluated_at': datetime.now()
+                    'evaluated_at': datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(IST)
                 }
             }
         )
