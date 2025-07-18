@@ -251,13 +251,16 @@ document.addEventListener('DOMContentLoaded', function() {
     initTimer();
     
     // Set minimum datetime for exam date
-    const now = new Date();
-    const examDate = new Date('{{ test.exam_date.isoformat() }}');
-    
-    if (now < examDate) {
-        alert('Test has not started yet!');
-        window.location.href = '{{ url_for("student_dashboard") }}';
-    }
+  const utcExamDate = new Date('{{ test.exam_date.isoformat() }}');
+
+// Convert to IST using time zone
+const examDateIST = new Date(utcExamDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+
+if (now < examDateIST) {
+    alert('Test has not started yet!');
+    window.location.href = '{{ url_for("student_dashboard") }}';
+}
+
 });
 </script>
  
