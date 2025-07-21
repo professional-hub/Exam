@@ -659,12 +659,13 @@ def admin_submissions():
                          submissions=all_submissions)
 
 @app.route('/about_us')
-def privacy_policy():
+def about_us():
     return render_template('About_us.html')
 
 @app.route('/terms-and-conditions')
 def terms_conditions():
     return render_template('terms.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
