@@ -658,9 +658,9 @@ def admin_submissions():
     return render_template('admin_submissions.html', 
                          submissions=all_submissions)
 
-@app.route('/privacy-policy')
+@app.route('/about_us')
 def privacy_policy():
-    return render_template('privacy_policy.html')
+    return render_template('About_us.html')
 
 @app.route('/terms-and-conditions')
 def terms_conditions():
