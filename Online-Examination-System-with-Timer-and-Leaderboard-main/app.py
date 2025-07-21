@@ -660,7 +660,7 @@ def admin_submissions():
 
 @app.route('/privacy-policy')
 def privacy_policy():
-    return render_template('privacy and policy.html')
+    return render_template('privacy_policy.html')
 
 @app.route('/terms-and-conditions')
 def terms_conditions():
